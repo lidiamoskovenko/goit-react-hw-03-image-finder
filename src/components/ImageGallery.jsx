@@ -26,25 +26,29 @@ export class ImageGallery extends Component {
         }
         this.setState((prevState) => ({
           images: prevState.page === 1 ? data.data.hits : [...prevState.images, ...data.data.hits],
-          totalHits: data.data.totalHits,
+          totalHits:data.data.totalHits,
         }));
       })
       .catch((error) => {
         this.setState({ error: error.message });
-      })
+      }) 
       .finally(() => {
         this.setState({
           isLoading: false,
         });
       });
+      
   };
           
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.page !== this.state.page || prevProps.value !== this.props.value) {
+    if (prevState.page !== this.state.page ) {
+      this.fetchImages();
+    }
+    if (prevProps.value !== this.props.value ) {
+      this.setState({ page: 1});
       this.fetchImages();
     }
   }
-
   loadMoreImages = () => {
         this.setState((prevState) => ({
           page: prevState.page + 1,
@@ -67,14 +71,12 @@ export class ImageGallery extends Component {
     return (
       <div>
         {this.state.isLoading && <Loader />}
-        {this.state.images && (
-          <ImageGalleryItem
-            images={this.state.images}
-            onClick={this.onReturnModalImage}
-          />
+        {this.state.images && this.state.images.length > 0 && (
+          <ImageGalleryItem images={this.state.images} onClick={this.onReturnModalImage} />
         )}
         {this.state.totalHits > 12 && <Button onClick={this.loadMoreImages} />}
-        {this.state.isOpenModal && <Modal modalImage={this.state.modalImage}  closeModal={this.closeModal}/>}
+        {this.state.isOpenModal && <Modal modalImage={this.state.modalImage} closeModal={this.closeModal} />}
+        {this.state.error && <div style={{ color: 'red' }}>{this.state.error}</div>}
       </div>
     );
   }
