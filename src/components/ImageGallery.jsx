@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import ImageGalleryItem from "./ImageGalleryItem";
+import ImageGalleryItem from "./ImageGalleryItem/ImageGalleryItem";
 import Button from "./Button";
 import Loader from "./Loader";
 import { Modal } from "./Modal/Modal";

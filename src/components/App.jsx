@@ -16,7 +16,10 @@ onSubmit = (value) => {
   render() {
 
   return (
-    <div>
+    <div style={{ 
+   padding: '10px',
+}}
+   >
      <Searchbar onSubmit={this.onSubmit}/>
      <ImageGallery value={this.state.value} />
     </div>
